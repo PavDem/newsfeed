@@ -2,8 +2,7 @@ package com.demidonko.newsfeed.service;
 
 import com.demidonko.newsfeed.model.Category;
 import com.demidonko.newsfeed.model.News;
-import com.demidonko.newsfeed.repo.CategoryRepo;
-import com.google.common.collect.Lists;
+import com.demidonko.newsfeed.repo.CategoryCrudRepo;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class CategoryServiceTest {
 
     @Autowired
-    private CategoryRepo categoryRepo;
+    private CategoryCrudRepo categoryCrudRepo;
 
     @Autowired
     private CategoryService categoryService;
@@ -40,6 +39,20 @@ public class CategoryServiceTest {
     private static final News news2 = new News("testnews2", category2, "TEST CONTENT2");
     private static final News news3 = new News("testnews3", category3, "PHRASE ONE TWO THREE SEARCH TEST");
     private static final News news4 = new News("testnews4", category4, "");
+
+
+    @Test
+    public void serviceIsExistWhenItsExistTest() throws Exception {
+        categoryService.save(category1);
+        Boolean result = categoryService.isCategoryExist(category1.getName());
+        assertTrue(result);
+    }
+
+    @Test
+    public void serviceIsExistTestWhenItsNotExist() throws Exception {
+        Boolean result = categoryService.isCategoryExist(category1.getName());
+        assertTrue(!result);
+    }
 
     @Test
     public void serviceSaveTest() throws Exception {
@@ -82,25 +95,11 @@ public class CategoryServiceTest {
         newsService.save(news1SameName);
         newsService.save(news3);
 
-        List<Category> categories1 = categoryService.findByName(category1.getName());
+        categoryService.findByName(category1.getName());
 
         List<Category> allCategories = categoryService.getAll();
 
-        News test1 = new News("testnews", category1, "TEST CONTENT");
-        News test2 = new News("testnews", category1, "TEST CONTENT");
-
-        Category categoryTest1 = new Category("Test");
-        Category categoryTest2 = new Category(" Test");
-
-        test1.setCategory(categoryTest1);
-        test2.setCategory(categoryTest1);
-
-
-        categoryTest1.equals(categoryTest2);
-        test1.equals(test2);
-
-
-        categories1.get(0).equals(allCategories.get(0));
+        Assert.assertEquals(category1, allCategories.get(0));
 
     }
 }

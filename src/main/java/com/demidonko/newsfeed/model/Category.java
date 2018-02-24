@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,8 @@ public class Category {
         this.id = id;
     }
 
-    @Column(name = "name")
+//    @NotNull
+    @Column(name = "name", nullable = false, unique = true)
     public String getName() {
         return name;
     }
@@ -42,9 +44,9 @@ public class Category {
         this.name = name;
     }
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+//            property = "id")
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     public List<News> getNewses() {
         return newses;
     }
@@ -60,23 +62,20 @@ public class Category {
 
         Category category = (Category) o;
 
-        if (id != null ? !id.equals(category.id) : category.id != null) return false;
         return name != null ? name.equals(category.name) : category.name == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return name != null ? name.hashCode() : 0;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Category{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", newses=" + newses +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", newses=" + newses +
+                '}';
+    }
 }

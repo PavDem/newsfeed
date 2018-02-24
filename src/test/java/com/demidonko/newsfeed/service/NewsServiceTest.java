@@ -50,30 +50,47 @@ public class NewsServiceTest {
     }
 
     @Test
+    public void serviceIsExistTestWhenItsExist() throws Exception {
+//        categoryService.save(category1);
+        newsService.save(news1);
+        Boolean result = newsService.isNewsExist(news1.getName());
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void serviceIsExistTestWhenItsNotExist() throws Exception {
+        Boolean result = newsService.isNewsExist(news1.getName());
+        assertTrue(!result);
+    }
+
+    @Test
     public void serviceSaveTest() throws Exception {
         categoryService.save(category1);
-        News newNews = newsService.save(news1);
+        newsService.save(news1);
         List<News> list = newsService.getAll();
         News result = list.get(0);
 
-        dateParser(newNews.getPublicationDate());
-        newNews.setPublicationDate(dateParser(newNews.getPublicationDate()));
+        dateParser(news1.getPublicationDate());
+        news1.setPublicationDate(dateParser(news1.getPublicationDate()));
         result.setPublicationDate(dateParser(result.getPublicationDate()));
 
-        assertEquals(result, newNews);
+        assertEquals(result, news1);
     }
 
     @Test
     public void serviceSaveButCategoryNotExistTest() throws Exception {
-        News savedNews  = newsService.save(news1);
-        assertTrue(savedNews == null);
+        newsService.save(news1);
+        List<News> list = newsService.getAll();
+        assertTrue(list.contains(news1));
     }
 
     @Test
     public void serviceSaveCategoryExistTest() throws Exception {
         categoryService.save(category1);
-        News savedNews  = newsService.save(news1);
-        assertTrue(savedNews != null);
+        newsService.save(news1);
+        List<News> list = newsService.getAll();
+        assertTrue(list.contains(news1));
     }
 
     @Test
@@ -89,8 +106,8 @@ public class NewsServiceTest {
     @Test
     public void serviceDeleteTest() throws Exception {
         categoryService.save(category1);
-        News savedNews = newsService.save(news1);
-        newsService.delete(savedNews.getId());
+        newsService.save(news1);
+        newsService.delete(news1.getId());
         List<News> result = newsService.getAll();
         assertTrue(result.isEmpty());
 
@@ -104,8 +121,8 @@ public class NewsServiceTest {
         newsService.save(news1);
         newsService.save(news2);
         News savedNews = newsService.save(news3);
-        List<News> result = newsService.findByName(savedNews.getName());
-        assertEquals(savedNews, result.get(0));
+        News result = newsService.findByName(savedNews.getName());
+        assertEquals(savedNews, result);
 
     }
 
@@ -114,20 +131,20 @@ public class NewsServiceTest {
         categoryService.save(category1);
         categoryService.save(category2);
         categoryService.save(category3);
-        News savedNews1 = newsService.save(news1);
-        News savedNews2 = newsService.save(news1SameName);
+        newsService.save(news1);
+        newsService.save(news1SameName);
         newsService.save(news2);
         newsService.save(news3);
 
         List<News> newses = newsService.getAll();
 
-        savedNews1.setPublicationDate(dateParser(savedNews1.getPublicationDate()));
-        savedNews2.setPublicationDate(dateParser(savedNews2.getPublicationDate()));
+        news1.setPublicationDate(dateParser(news1.getPublicationDate()));
+        news1SameName.setPublicationDate(dateParser(news1SameName.getPublicationDate()));
         newses.get(0).setPublicationDate(dateParser(newses.get(0).getPublicationDate()));
         newses.get(1).setPublicationDate(dateParser(newses.get(1).getPublicationDate()));
 
-        assertEquals(newses.get(0), savedNews1);
-        assertEquals(newses.get(1), savedNews2);
+        assertEquals(newses.get(0), news1);
+        assertEquals(newses.get(1), news1SameName);
 
 
     }
@@ -136,18 +153,24 @@ public class NewsServiceTest {
     public void serviceFindByCategory() throws Exception {
         categoryService.save(category1);
         categoryService.save(category2);
-        categoryService.save(category3);
+//        categoryService.save(category3);
 
-        News savedNews1 =  newsService.save(news1);
-        News savedNews2 = newsService.save(news1SameName);
+        newsService.save(news1);
+        newsService.save(news1SameName);
         newsService.save(news2);
         newsService.save(news3);
 
         List<News> newsesCategory1 = newsService.findByCategory(category1);
 
-        Assert.assertEquals(savedNews1.getId(), newsesCategory1.get(0).getId());
-        Assert.assertEquals(savedNews2.getId(), newsesCategory1.get(1).getId());
+        Assert.assertEquals(news1.getId(), newsesCategory1.get(0).getId());
+        Assert.assertEquals(news1SameName.getId(), newsesCategory1.get(1).getId());
 
 
+    }
+
+
+    @Test
+    public void findByContentTest() throws Exception {
+        newsService.save(news1);
     }
 }

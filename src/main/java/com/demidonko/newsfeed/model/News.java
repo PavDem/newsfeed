@@ -1,12 +1,19 @@
 package com.demidonko.newsfeed.model;
 
+import com.demidonko.newsfeed.utils.CustomSerializer;
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.TermVector;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 
+@Indexed
 @Entity
 @Table(name = "news")
 public class News {
@@ -16,7 +23,8 @@ public class News {
     private Category category;
     private String content;
 
-    private News() {
+    public News() {
+        this.publicationDate = new Date();
     }
 
     public News(String name, Category category, String content) {
@@ -37,7 +45,8 @@ public class News {
         this.id = id;
     }
 
-    @Column(name = "name")
+
+    @Column(name = "name", unique = true, nullable = false)
     public String getName() {
         return name;
     }
@@ -45,6 +54,7 @@ public class News {
     public void setName(String name) {
         this.name = name;
     }
+
 
     @Column(name = "publicationDate")
     public Date getPublicationDate() {
@@ -55,10 +65,10 @@ public class News {
         this.publicationDate = publicationDate;
     }
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
+
+    @JsonSerialize(using = CustomSerializer.class)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id", nullable = false)
     public Category getCategory() {
         return category;
     }
@@ -67,6 +77,8 @@ public class News {
         this.category = category;
     }
 
+//    @NotNull
+    @Field(termVector = TermVector.YES)
     @Column(name = "content")
     public String getContent() {
         return content;
@@ -84,33 +96,22 @@ public class News {
 
         News news = (News) o;
 
-        if (id != null ? !id.equals(news.id) : news.id != null) return false;
-        if (name != null ? !name.equals(news.name) : news.name != null) return false;
-        if (publicationDate != null ? !publicationDate.equals(news.publicationDate) : news.publicationDate != null)
-            return false;
-        if (category != null ? !category.equals(news.category) : news.category != null)
-            return false;
-        return content != null ? content.equals(news.content) : news.content == null;
+        return name != null ? name.equals(news.name) : news.name == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (publicationDate != null ? publicationDate.hashCode() : 0);
-        result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (content != null ? content.hashCode() : 0);
-        return result;
+        return name != null ? name.hashCode() : 0;
     }
 
-//    @Override
-//    public String toString() {
-//        return "News{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", publicationDate=" + publicationDate +
-//                ", category=" + category +
-//                ", content='" + content + '\'' +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "News{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", publicationDate=" + publicationDate +
+                ", category=" + category.getName() +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

@@ -4,6 +4,7 @@ import com.demidonko.newsfeed.model.Category;
 import com.demidonko.newsfeed.model.News;
 import com.demidonko.newsfeed.service.CategoryService;
 import com.demidonko.newsfeed.service.NewsService;
+import com.demidonko.newsfeed.web.NewsController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -21,6 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -29,8 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Collections;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(ControllerTest.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebMvcTest(NewsController.class)
 public class ControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -61,28 +65,71 @@ public class ControllerTest {
     private static final News news1SameName = new News("testnews", category1, "TEST CONTENT");
     private static final News news2 = new News("testnews2", category2, "TEST CONTENT2");
     private static final News news3 = new News("testnews3", category3, "PHRASE ONE TWO THREE SEARCH TEST");
-    private static final News news4 = new News("testnews4", category4, "");
+    private static final News news4 = new News("", category4, "");
 
     @Test
     public void saveNewsTest() throws Exception {
-        News news = news1;
+//        News news = news1;
         ObjectMapper mapper = new ObjectMapper();
-        given(newsService.save(news)).willReturn(news);
-        mockMvc.perform(post("/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(mapper.writeValueAsString(news)))
+        when(newsService.save(news1)).thenReturn(news1);
+        String result = mapper.writeValueAsString(news1);
+        mockMvc.perform(post("/save/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(result))
                 .andExpect(status().isOk())
-                .andExpect(content().string(news.getContent()));
+                .andExpect(content().string(result));
+    }
+
+    @Test
+    public void saveNewsWhenNameIsEmpty() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        when(newsService.save(news4)).thenReturn(news4);
+        String result = mapper.writeValueAsString(news4);
+        mockMvc.perform(post("/save/")
+                .content(result)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
 
- /*
-    public void saveNewsWhenNewsIsNullTest();
+    @Test
+    public void updateNewsTest() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        when(newsService.save(news1)).thenReturn(news1);
+        String result = mapper.writeValueAsString(news1);
+        mockMvc.perform(post("/save/")
+                .content(result)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(result))
+                .andExpect(status().isOk());
 
-    public void updateNewsTest();
+        news1.setName("NewName");
+        result = mapper.writeValueAsString(news1);
+        when(newsService.update(news1)).thenReturn(news1);
+        mockMvc.perform(post("/update/103" )
+                .content(result)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(result))
+                .andExpect(status().isOk());
+    }
 
-    public void deleteTestWhenNewsExistTest();
 
+    @Test
+    public void deleteTestWhenNewsExistTest() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        when(newsService.save(news1)).thenReturn(news1);
+        doNothing().when(newsService).delete(10);
+        String result = mapper.writeValueAsString(news1);
+        mockMvc.perform(get("/delete/10")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(result))
+                .andExpect(status().isOk());
+    }
+
+
+
+
+    /** TODO
     public void deleteTestWhenNewsNotExistTest();
 
     public void findByCategoryWhenCategoryIsNullTest();
