@@ -127,29 +127,6 @@ public class NewsServiceTest {
     }
 
     @Test
-    public void serviceFindByNameSameNamesCaseTest() throws Exception {
-        categoryService.save(category1);
-        categoryService.save(category2);
-        categoryService.save(category3);
-        newsService.save(news1);
-        newsService.save(news1SameName);
-        newsService.save(news2);
-        newsService.save(news3);
-
-        List<News> newses = newsService.getAll();
-
-        news1.setPublicationDate(dateParser(news1.getPublicationDate()));
-        news1SameName.setPublicationDate(dateParser(news1SameName.getPublicationDate()));
-        newses.get(0).setPublicationDate(dateParser(newses.get(0).getPublicationDate()));
-        newses.get(1).setPublicationDate(dateParser(newses.get(1).getPublicationDate()));
-
-        assertEquals(newses.get(0), news1);
-        assertEquals(newses.get(1), news1SameName);
-
-
-    }
-
-    @Test
     public void serviceFindByCategory() throws Exception {
         categoryService.save(category1);
         categoryService.save(category2);
@@ -163,7 +140,6 @@ public class NewsServiceTest {
         List<News> newsesCategory1 = newsService.findByCategory(category1);
 
         Assert.assertEquals(news1.getId(), newsesCategory1.get(0).getId());
-        Assert.assertEquals(news1SameName.getId(), newsesCategory1.get(1).getId());
 
 
     }

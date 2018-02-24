@@ -69,7 +69,6 @@ public class ControllerTest {
 
     @Test
     public void saveNewsTest() throws Exception {
-//        News news = news1;
         ObjectMapper mapper = new ObjectMapper();
         when(newsService.save(news1)).thenReturn(news1);
         String result = mapper.writeValueAsString(news1);
@@ -95,18 +94,9 @@ public class ControllerTest {
     @Test
     public void updateNewsTest() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
-        when(newsService.save(news1)).thenReturn(news1);
         String result = mapper.writeValueAsString(news1);
-        mockMvc.perform(post("/save/")
-                .content(result)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(result))
-                .andExpect(status().isOk());
-
-        news1.setName("NewName");
-        result = mapper.writeValueAsString(news1);
         when(newsService.update(news1)).thenReturn(news1);
-        mockMvc.perform(post("/update/103" )
+        mockMvc.perform(post("/update/10" )
                 .content(result)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(result))

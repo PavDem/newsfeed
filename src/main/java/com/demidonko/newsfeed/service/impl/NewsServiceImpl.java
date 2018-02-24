@@ -68,8 +68,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public News update(News news) {
         News finedNews = newsCrudRepo.findByName(news.getName());
-        if(finedNews == null) return null;
-        if (!finedNews.getId().equals(news.getId())) return null;
+        if (finedNews != null && !finedNews.getId().equals(news.getId())) return null;
 //        if (!finedNews.getId().equals(news.getId())) return null;
         return newsCrudRepo.save(news);
     }
