@@ -1,4 +1,4 @@
-package com.demidonko.newsfeed;
+package com.newsfeed;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;

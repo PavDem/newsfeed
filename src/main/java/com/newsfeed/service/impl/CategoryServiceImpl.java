@@ -1,8 +1,8 @@
-package com.demidonko.newsfeed.service.impl;
+package com.newsfeed.service.impl;
 
-import com.demidonko.newsfeed.model.Category;
-import com.demidonko.newsfeed.repo.CategoryCrudRepo;
-import com.demidonko.newsfeed.service.CategoryService;
+import com.newsfeed.model.Category;
+import com.newsfeed.repo.CategoryCrudRepo;
+import com.newsfeed.service.CategoryService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

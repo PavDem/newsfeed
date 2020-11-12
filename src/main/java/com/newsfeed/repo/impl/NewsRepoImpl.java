@@ -1,8 +1,7 @@
-package com.demidonko.newsfeed.repo.impl;
+package com.newsfeed.repo.impl;
 
-import com.demidonko.newsfeed.model.News;
-import com.demidonko.newsfeed.repo.NewsCrudRepo;
-import com.demidonko.newsfeed.repo.NewsRepo;
+import com.newsfeed.model.News;
+import com.newsfeed.repo.NewsRepo;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;

@@ -1,9 +1,9 @@
-package com.demidonko.newsfeed.web;
+package com.newsfeed.web;
 
-import com.demidonko.newsfeed.model.Category;
-import com.demidonko.newsfeed.model.News;
-import com.demidonko.newsfeed.service.CategoryService;
-import com.demidonko.newsfeed.service.NewsService;
+import com.newsfeed.model.Category;
+import com.newsfeed.model.News;
+import com.newsfeed.service.CategoryService;
+import com.newsfeed.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

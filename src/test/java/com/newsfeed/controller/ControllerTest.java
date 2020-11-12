@@ -1,10 +1,10 @@
-package com.demidonko.newsfeed.controller;
+package com.newsfeed.controller;
 
-import com.demidonko.newsfeed.model.Category;
-import com.demidonko.newsfeed.model.News;
-import com.demidonko.newsfeed.service.CategoryService;
-import com.demidonko.newsfeed.service.NewsService;
-import com.demidonko.newsfeed.web.NewsController;
+import com.newsfeed.model.Category;
+import com.newsfeed.model.News;
+import com.newsfeed.service.CategoryService;
+import com.newsfeed.service.NewsService;
+import com.newsfeed.web.NewsController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,9 +29,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.Collections;
-import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(NewsController.class)

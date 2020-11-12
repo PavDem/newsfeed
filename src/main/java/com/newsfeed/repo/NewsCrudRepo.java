@@ -1,7 +1,7 @@
-package com.demidonko.newsfeed.repo;
+package com.newsfeed.repo;
 
-import com.demidonko.newsfeed.model.Category;
-import com.demidonko.newsfeed.model.News;
+import com.newsfeed.model.Category;
+import com.newsfeed.model.News;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

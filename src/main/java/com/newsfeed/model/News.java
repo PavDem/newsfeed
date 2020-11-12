@@ -1,6 +1,6 @@
-package com.demidonko.newsfeed.model;
+package com.newsfeed.model;
 
-import com.demidonko.newsfeed.utils.CustomSerializer;
+import com.newsfeed.utils.CustomSerializer;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.search.annotations.Field;
@@ -10,8 +10,6 @@ import org.hibernate.search.annotations.TermVector;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.Objects;
-import java.util.Vector;
 
 @Indexed
 @Entity

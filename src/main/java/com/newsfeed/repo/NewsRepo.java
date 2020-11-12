@@ -1,6 +1,6 @@
-package com.demidonko.newsfeed.repo;
+package com.newsfeed.repo;
 
-import com.demidonko.newsfeed.model.News;
+import com.newsfeed.model.News;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package com.demidonko.newsfeed.service;
+package com.newsfeed.service;
 
-import com.demidonko.newsfeed.model.Category;
-import com.demidonko.newsfeed.model.News;
-import com.demidonko.newsfeed.repo.CategoryCrudRepo;
+import com.newsfeed.model.Category;
+import com.newsfeed.model.News;
+import com.newsfeed.repo.CategoryCrudRepo;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

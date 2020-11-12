@@ -1,7 +1,7 @@
-package com.demidonko.newsfeed.service;
+package com.newsfeed.service;
 
-import com.demidonko.newsfeed.model.Category;
-import com.demidonko.newsfeed.model.News;
+import com.newsfeed.model.Category;
+import com.newsfeed.model.News;
 
 import java.util.List;
 

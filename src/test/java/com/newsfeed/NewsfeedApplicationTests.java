@@ -1,4 +1,4 @@
-package com.demidonko.newsfeed;
+package com.newsfeed;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

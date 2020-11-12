@@ -1,6 +1,6 @@
-package com.demidonko.newsfeed.utils;
+package com.newsfeed.utils;
 
-import com.demidonko.newsfeed.model.Category;
+import com.newsfeed.model.Category;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
